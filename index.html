@@ -1,72 +1,106 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>混合媒体下载中心</title>
+    <title>我的多媒体集</title>
     <style>
         .media-item {
             margin: 20px;
-            padding: 15px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 5px;
         }
-        video, img {
-            max-width: 300px;
-            display: block;
-            margin-bottom: 10px;
+        video {
+            width: 400px;
         }
     </style>
 </head>
 <body>
-    <h1>历史影像资料库（持续更新）</h1>
-    <div id="media-container"></div>
+    <h1>扫码下载文件</h1>
+    
+    <!-- 视频区 -->
+    <h2>视频文件</h2>
+    <div id="video-container">
+        <!-- 视频会自动插入到这里 -->
+    </div>
+
+    <!-- 图片区 -->
+    <h2>图片文件</h2>
+    <div id="image-container">
+        <!-- 图片会自动插入到这里 -->
+    </div>
 
     <script>
-        // 仅需维护这个链接数组 ▼▼▼
-        const mediaUrls = [
-            'https://kangxie.oss-cn-shenzhen.aliyuncs.com/001.mp4',
-            'https://kangxie.oss-cn-shenzhen.aliyuncs.com/02.mp4',
-            'https://kangxie.oss-cn-shenzhen.aliyuncs.com/99%E5%B9%B4%E5%9B%BD%E8%90%A5%E9%A5%AD%E5%BA%97%281%29.mp4',
-            // https://kangxie.oss-cn-shenzhen.aliyuncs.com/001.mp4,
-https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF01.jpg,
-https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF02.jpg,
-https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF03.jpg,
-https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg,
-▼▼▼
+        // 所有多媒体文件列表
+        const mediaFiles = [
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/001.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/02.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/99%E5%B9%B4%E5%9B%BD%E8%90%A5%E9%A5%AD%E5%BA%97%281%29.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E4%B8%8A%E8%AF%BE.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E5%89%AA%E5%BD%A9%28%E5%90%88%E5%B9%B6%29.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E5%BC%80%E8%88%B9.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E6%A1%82%E8%8A%B1%E9%85%92%E6%A5%BC.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E6%B0%91%E8%B4%B8%E5%85%AC%E5%8F%B8.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E6%B8%85%E6%B1%9F%E5%A4%A7%E6%A1%A5.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E7%8E%8B%E5%AE%97%E7%A7%80.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E7%99%BE%E8%B4%A7%E5%A4%A7%E6%A5%BC%20%E6%9C%80%E7%BB%88.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E7%BA%BA%E7%BB%87%E5%93%81%E5%85%AC%E5%8F%B8%E9%97%A8%E9%9D%A2.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%80%81%E7%85%A7%E7%89%87%E5%90%88%E9%9B%86-%E6%B8%A1%E8%88%B9.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E9%93%81%E7%B4%A2%E6%A1%A5%28%E6%88%90%E5%93%81%29.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E9%A9%AC%E8%BD%A6.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E9%BB%91%E7%99%BD%E5%8F%98%E5%BD%A9%E8%89%B2%20%20%E6%9C%80%E7%BB%88.mp4",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF01.jpg",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF02.jpg",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF03.jpg",
+            "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg"
         ];
 
-        // 自动处理函数 ▼▼▼
+        // 自动生成内容
         function generateMediaElements() {
-            const container = document.getElementById('media-container');
-            
-            mediaUrls.forEach(url => {
-                // 解析文件名
-                const fileName = decodeURIComponent(url.split('/').pop());
-                const fileType = fileName.split('.').pop().toLowerCase();
-                
-                // 创建媒体元素
+            const videoContainer = document.getElementById('video-container');
+            const imageContainer = document.getElementById('image-container');
+
+            mediaFiles.forEach((url, index) => {
+                const isVideo = url.endsWith('.mp4');
+                const isImage = url.endsWith('.jpg');
+
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'media-item';
-                
-                // 智能识别媒体类型
-                if (['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
-                    itemDiv.innerHTML = `
-                        <img src="${url}" alt="${fileName}">
-                        <a href="${url}" download="${fileName}">下载图片：${fileName}</a>
-                    `;
-                } else if (['mp4', 'mov', 'avi'].includes(fileType)) {
-                    itemDiv.innerHTML = `
-                        <video controls muted>
-                            <source src="${url}" type="video/${fileType}">
-                        </video>
-                        <a href="${url}" download="${fileName}">下载视频：${fileName}</a>
-                    `;
+
+                if (isVideo) {
+                    const video = document.createElement('video');
+                    video.controls = true;
+                    const source = document.createElement('source');
+                    source.src = url;
+                    source.type = 'video/mp4';
+                    video.appendChild(source);
+                    itemDiv.appendChild(video);
+                } else if (isImage) {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.width = 200;
+                    itemDiv.appendChild(img);
                 }
+
+                // 添加下载按钮
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = true;
+                downloadLink.innerHTML = `下载文件 ${index + 1}`;
+                downloadLink.style.display = 'block';
+                downloadLink.style.marginTop = '10px';
                 
-                container.appendChild(itemDiv);
+                itemDiv.appendChild(downloadLink);
+
+                // 添加到对应容器
+                if (isVideo) {
+                    videoContainer.appendChild(itemDiv);
+                } else if (isImage) {
+                    imageContainer.appendChild(itemDiv);
+                }
             });
         }
 
-        // 页面加载时自动生成
+        // 页面加载完成后执行
         window.onload = generateMediaElements;
     </script>
 </body>
