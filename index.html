@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>灵动之美·双列画廊</title>
+    <title>灵动之美·方寸之间</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
         :root {
@@ -63,8 +63,8 @@
 
         .media-card img {
             width: 100%;
-            height: 40vh;
-            min-height: 220px;
+            height: auto;
+            aspect-ratio: 1/1; /* 新增宽高比属性 */
             object-fit: cover;
             border-bottom: 2px solid var(--accent-color);
         }
@@ -98,10 +98,6 @@
                 padding: 10px;
             }
             
-            .media-card img {
-                height: 45vh;
-            }
-            
             .download-btn {
                 font-size: 1rem;
                 padding: 14px 18px;
@@ -110,8 +106,10 @@
     </style>
 </head>
 <body>
+    <!-- 保持原有内容结构不变 -->
     <div class="header">
-        <h1>品质生活体验中心</h1>
+        <h1>品质生活体验中心
+               ·三穗馆</h1>
         <p>岁月不败美人 | 光影留住永恒</p>
     </div>
 
@@ -126,6 +124,8 @@
                立即下载
             </a>
         </div>
+        
+        <!-- 重复其他三个相同结构的卡片 -->
         <div class="media-card">
             <img src="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF02.jpg" 
                  alt="优雅背景2"
@@ -147,7 +147,7 @@
             </a>
         </div>
         <div class="media-card">
-            <img src="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg" 
+            <img src="https//kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg" 
                  alt="优雅背景4"
                  loading="lazy">
             <a href="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg" 
