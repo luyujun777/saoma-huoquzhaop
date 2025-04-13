@@ -64,7 +64,7 @@
         .media-card img {
             width: 100%;
             height: auto;
-            aspect-ratio: 1/1; /* 新增宽高比属性 */
+            aspect-ratio: 1/1;
             object-fit: cover;
             border-bottom: 2px solid var(--accent-color);
         }
@@ -106,55 +106,75 @@
     </style>
 </head>
 <body>
-    <!-- 保持原有内容结构不变 -->
     <div class="header">
         <h1>品质生活体验中心</h1>
         <p>岁月不败美人 | 光影留住永恒</p>
     </div>
 
-    <div class="media-grid">
-        <div class="media-card">
-            <img src="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF01.jpg" 
-                 alt="优雅背景1"
-                 loading="lazy">
-            <a href="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF01.jpg" 
-               class="download-btn"
-               download="背景01.jpg">
-               立即下载
-            </a>
-        </div>
-        
-        <!-- 重复其他三个相同结构的卡片 -->
-        <div class="media-card">
-            <img src="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF02.jpg" 
-                 alt="优雅背景2"
-                 loading="lazy">
-            <a href="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF02.jpg" 
-               class="download-btn"
-               download="背景02.jpg">
-               立即下载
-            </a>
-        </div>
-        <div class="media-card">
-            <img src="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF03.jpg" 
-                 alt="优雅背景3"
-                 loading="lazy">
-            <a href="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF03.jpg" 
-               class="download-btn"
-               download="背景03.jpg">
-               立即下载
-            </a>
-        </div>
-        <div class="media-card">
-            <img src="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg" 
-                 alt="优雅背景4"
-                 loading="lazy">
-            <a href="https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg" 
-               class="download-btn"
-               download="背景04.jpg">
-               立即下载
-            </a>
-        </div>
+    <div class="media-grid" id="mediaGrid">
+        <!-- 图片将通过JavaScript动态插入到这里 -->
     </div>
+
+    <script>
+        // 图片数据数组 - 在这里批量管理所有图片URL
+        const imageData = [
+            { 
+                url: "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF01.jpg", 
+                alt: "优雅背景1",
+                filename: "背景01.jpg"
+            },
+            { 
+                url: "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF02.jpg", 
+                alt: "优雅背景2",
+                filename: "背景02.jpg"
+            },
+            { 
+                url: "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF03.jpg", 
+                alt: "优雅背景3",
+                filename: "背景03.jpg"
+            },
+            { 
+                url: "https://kangxie.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E6%99%AF04.jpg", 
+                alt: "优雅背景4",
+                filename: "背景04.jpg"
+            },
+            // 可以继续添加更多图片...
+            // { 
+            //     url: "https://example.com/背景05.jpg", 
+            //     alt: "优雅背景5",
+            //     filename: "背景05.jpg" 
+            // }
+        ];
+
+        // 生成媒体卡片函数
+        function generateMediaCards() {
+            const grid = document.getElementById('mediaGrid');
+            
+            // 清除加载状态（如果有）
+            grid.innerHTML = '';
+            
+            // 遍历图片数据并生成HTML
+            imageData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.innerHTML = `
+                    <img src="${item.url}" alt="${item.alt}" loading="lazy">
+                    <a href="${item.url}" class="download-btn" download="${item.filename}">
+                        立即下载
+                    </a>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // 页面加载完成后生成卡片
+        document.addEventListener('DOMContentLoaded', generateMediaCards);
+
+        // 可选：如果未来需要更新图片数据
+        function updateImageData(newData) {
+            imageData = [...newData];
+            generateMediaCards();
+        }
+    </script>
 </body>
 </html>
